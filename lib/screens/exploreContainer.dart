@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class homeContainer extends StatelessWidget {
+class exploreContainer extends StatelessWidget {
   final List<String> upcomingEvents = <String>['A', 'B', 'C'];
-  final List<String> bookedEvents = <String>['C'];
 
-  homeContainer({
+  exploreContainer({
     super.key,
   });
 
@@ -16,7 +14,7 @@ class homeContainer extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.all(10.0),
           child: Text(
-            'Welcome Chris,',
+            'Explore Events',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
@@ -25,7 +23,7 @@ class homeContainer extends StatelessWidget {
           ),
         ),
         const Text(
-          'Upcoming events near you:',
+          'Music',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -36,7 +34,7 @@ class homeContainer extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.only(top: 20, bottom: 0),
           child: Text(
-            'Booked Events:',
+            'Tournaments',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
@@ -44,7 +42,19 @@ class homeContainer extends StatelessWidget {
             ),
           ),
         ),
-        EventsListWidget(events: bookedEvents),
+        EventsListWidget(events: upcomingEvents),
+        const Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 0),
+          child: Text(
+            'Speeches',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        EventsListWidget(events: upcomingEvents),
       ]),
     );
   }

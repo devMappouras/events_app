@@ -176,7 +176,7 @@ class logo extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(32.0),
         child: Image.asset(
-          '/images/eventssmall.png',
+          '/images/logos/eventssmall.png',
           fit: BoxFit.contain,
         ),
       ),

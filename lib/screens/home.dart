@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
+import 'exploreContainer.dart';
 import 'homeContainer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 14, right: 0, top: 8, bottom: 8),
           child: Image.asset(
-            "assets/images/eventslogo.png",
+            "assets/images/logos/eventslogo.png",
           ),
         ),
         title: const Text('Events.tech'),
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() => _currentIndex = index);
             },
             children: <Widget>[
-              Container(),
+              exploreContainer(),
               homeContainer(),
               Container(),
             ],
