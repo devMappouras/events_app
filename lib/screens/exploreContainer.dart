@@ -84,42 +84,40 @@ class EventsListWidget extends StatelessWidget {
               child: Container(
                 width: 340,
                 color: Colors.white,
-                child: Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        'assets/images/events/${events[index]}.png',
-                        fit: BoxFit.contain,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      'assets/images/events/${events[index]}.png',
+                      fit: BoxFit.contain,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8, top: 4, bottom: 4),
+                      child: Text(
+                        '25 Dec - 8pm',
+                        style: TextStyle(fontSize: 18, color: Colors.blue),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8, top: 4, bottom: 4),
-                        child: Text(
-                          '25 Dec - 8pm',
-                          style: TextStyle(fontSize: 18, color: Colors.blue),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8, top: 4),
+                      child: Text(
+                        'OAKA Venue',
+                        style: TextStyle(
+                          color: Color.fromARGB(221, 59, 59, 59),
+                          fontSize: 18,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8, top: 4),
-                        child: Text(
-                          'OAKA Venue',
-                          style: TextStyle(
-                            color: Color.fromARGB(221, 59, 59, 59),
-                            fontSize: 18,
-                          ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 10),
+                      child: Text(
+                        'Event ${events[index]}                                       More Event Information',
+                        style: const TextStyle(
+                          fontSize: 25,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, top: 10),
-                        child: Text(
-                          'Event ${events[index]}                                       More Event Information',
-                          style: const TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
