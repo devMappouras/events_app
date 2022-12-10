@@ -11,14 +11,17 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   String currentText = "";
   int selectedCountryId = 0;
-  final textControllerUserName = TextEditingController();
-  final textControllerPass = TextEditingController();
+  final firstNameTextController = TextEditingController();
+  final lastNameTextController = TextEditingController();
+  final emailTextController = TextEditingController();
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
   AuthController authController = Get.find();
   TextEditingController controller1 = TextEditingController(text: '');
 
   @override
   void onInit() async {
-    authController.getCountries();
+    //authController.getCountries();
   }
 
   @override
@@ -30,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               end: Alignment.bottomRight,
               colors: [Colors.purple, Colors.orange])),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: Column(
           children: <Widget>[
@@ -87,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: textControllerUserName,
+                                  controller: firstNameTextController,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       labelText: 'First Name'),
@@ -118,7 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: textControllerUserName,
+                                  controller: lastNameTextController,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       labelText: 'Last Name'),
@@ -149,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: textControllerUserName,
+                                  controller: emailTextController,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       labelText: 'Enter your email'),
@@ -180,7 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
-                                  controller: textControllerPass,
+                                  controller: passwordTextController,
                                   obscureText: true,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
@@ -199,8 +203,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           left: 40, right: 40, top: 20, bottom: 20),
                       child: InkWell(
                         onTap: () {
-                          print(textControllerUserName.value.text);
-                          print(textControllerPass.value.text);
+                          print(usernameTextController.value.text);
+                          print(passwordTextController.value.text);
+                          print(firstNameTextController.value.text);
+                          print(lastNameTextController.value.text);
+                          print(emailTextController.value.text);
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),

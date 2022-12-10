@@ -4,6 +4,8 @@ import 'package:events_app/core/models/http-response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../core/models/customer.dart';
+
 class AuthController extends GetxController {
   static const controllerOffset = 'EventsApi';
   static const apiUrl = 'https://10.0.2.2:7097';
@@ -11,7 +13,7 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    //getCountries();
+    getCountries();
   }
 
   //Variables, Setters, Getters
@@ -20,18 +22,15 @@ class AuthController extends GetxController {
   set appendToCountriesList(Country value) => _countries.add(value);
 
   //methods
-  final RxList<String> _countriesToDisplay = <String>[].obs;
+  final RxList<String> _countriesToDisplay = <String>[''].obs;
   List<String> get countriesNamesList => _countriesToDisplay.value;
 
   Future<void> getCountries() async {
     try {
-      //_dio.options.headers['authorization'] = 'Bearer $token';
-
       var dio = Dio();
       final response =
           await dio.get('$apiUrl/$controllerOffset/Countries/GetCountries');
 
-      print(response.data);
       if (response.statusCode == 200) {
         var responseValue = HttpResponse.fromJson(response.data).value;
         _countries.value = Country.ListFromJson(responseValue);
@@ -49,26 +48,26 @@ class AuthController extends GetxController {
     }
   }
 
-  // Future<void> registerCustomer(Customer customer) async {
-  //   try {
-  //     //_dio.options.headers['authorization'] = 'Bearer $token';
+  Future<void> registerCustomer(Customer customer) async {
+    try {
+      //_dio.options.headers['authorization'] = 'Bearer $token';
 
-  //     var dio = Dio();
-  //     final response = await dio.post(
-  //         '$apiUrl/$controllerOffset/Countries/GetCountries',
-  //         data: {'customer': customer});
+      var dio = Dio();
+      final response = await dio.post(
+          '$apiUrl/$controllerOffset/Countries/GetCountries',
+          data: {'customer': customer});
 
-  //     if (response.statusCode == 200) {
-  //       var responseValue = HttpResponse.fromJson(response.data).value;
+      if (response.statusCode == 200) {
+        var responseValue = HttpResponse.fromJson(response.data).value;
 
-  //       print(responseValue);
-  //     } else {
-  //       print('${response.statusCode} : ${response.data.toString()}');
-  //       throw response.statusCode ?? 0;
-  //     }
-  //   } on DioError catch (e) {
-  //     debugPrint("Status code: ${e.response?.statusCode.toString()}");
-  //     throw Exception(e.message);
-  //   }
-  // }
+        print(responseValue);
+      } else {
+        print('${response.statusCode} : ${response.data.toString()}');
+        throw response.statusCode ?? 0;
+      }
+    } on DioError catch (e) {
+      debugPrint("Status code: ${e.response?.statusCode.toString()}");
+      throw Exception(e.message);
+    }
+  }
 }

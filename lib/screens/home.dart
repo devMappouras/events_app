@@ -12,7 +12,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AuthController registrationController = Get.find();
   int _currentIndex = 1;
-  late final PageController _pageController = PageController();
+  late final PageController _pageController =
+      PageController(initialPage: _currentIndex);
 
   @override
   void onInit() async {
