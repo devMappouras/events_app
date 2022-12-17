@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
+import '../utils/user_simple_preferences.dart';
 import 'exploreContainer.dart';
 import 'homeContainer.dart';
 
@@ -14,10 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 1;
   late final PageController _pageController =
       PageController(initialPage: _currentIndex);
+  String firstname = '';
 
   @override
-  void onInit() async {
-    //registrationController.getCountries();
+  void initState() {
+    super.initState();
+
+    firstname = UserSimplePreferences.getFirstName();
   }
 
   @override
@@ -55,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             children: <Widget>[
               exploreContainer(),
-              homeContainer(),
+              HomeContainer(firstname: firstname),
               Container(),
             ],
           ),

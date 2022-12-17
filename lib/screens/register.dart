@@ -1,4 +1,5 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:events_app/core/models/customer.dart';
 import 'package:events_app/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,19 +11,13 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   String currentText = "";
-  int selectedCountryId = 0;
+  String selectedCountryName = '';
   final firstNameTextController = TextEditingController();
   final lastNameTextController = TextEditingController();
   final emailTextController = TextEditingController();
-  final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   AuthController authController = Get.find();
   TextEditingController controller1 = TextEditingController(text: '');
-
-  @override
-  void onInit() async {
-    //authController.getCountries();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +55,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: Obx(() => CustomDropdown.search(
                                       hintText: 'Select Country',
                                       items: authController.countriesNamesList,
-                                      onChanged: (String? newValue) {
+                                      onChanged: (String newValue) {
                                         print(newValue);
+                                        selectedCountryName = newValue;
                                       },
                                       controller: controller1,
                                     )),
@@ -203,11 +199,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           left: 40, right: 40, top: 20, bottom: 20),
                       child: InkWell(
                         onTap: () {
-                          print(usernameTextController.value.text);
-                          print(passwordTextController.value.text);
-                          print(firstNameTextController.value.text);
-                          print(lastNameTextController.value.text);
-                          print(emailTextController.value.text);
+                          authController.registerCustomer(Customer(
+                              firstName: firstNameTextController.value.text,
+                              lastName: lastNameTextController.value.text,
+                              email: emailTextController.value.text,
+                              countryName: selectedCountryName,
+                              password: passwordTextController.value.text));
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),

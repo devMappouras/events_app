@@ -18,6 +18,7 @@ dependencies:
   dio:
   animated_custom_dropdown: ^1.2.2
   bottom_navy_bar:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

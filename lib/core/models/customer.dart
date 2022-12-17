@@ -3,8 +3,8 @@ class Customer {
   String firstName;
   String lastName;
   String email;
-  int countryId;
-  String username;
+  int? countryId;
+  String? countryName;
   String? password;
 
   Customer(
@@ -12,8 +12,8 @@ class Customer {
       required this.firstName,
       required this.lastName,
       required this.email,
-      required this.countryId,
-      required this.username,
+      this.countryId,
+      this.countryName,
       this.password});
 
   factory Customer.fromJson(Map<String, dynamic> json) {
@@ -23,18 +23,15 @@ class Customer {
       lastName: json['lastName'],
       email: json['email'],
       countryId: json['countryId'],
-      username: json['username'],
       password: json['password'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'customerId': customerId,
         'firstName': firstName,
         'lastName': lastName,
         'email': email,
         'countryId': countryId,
-        'username': username,
         'password': password,
       };
 
