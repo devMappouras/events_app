@@ -7,14 +7,19 @@ import 'exploreContainer.dart';
 import 'homeContainer.dart';
 
 class HomeScreen extends StatefulWidget {
+  int? newContainerIndex = 1;
+
+  HomeScreen({this.newContainerIndex});
+
+  @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthController registrationController = Get.find();
-  int _currentIndex = 1;
-  late final PageController _pageController =
-      PageController(initialPage: _currentIndex);
+  final int _homeContainerIndex = 1;
+  late final PageController _pageController = PageController(
+      initialPage: widget.newContainerIndex ?? _homeContainerIndex);
   String firstname = '';
 
   @override
@@ -55,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: PageView(
             controller: _pageController,
             onPageChanged: (index) {
-              setState(() => _currentIndex = index);
+              setState(() => widget.newContainerIndex = index);
             },
             children: <Widget>[
               exploreContainer(),
@@ -68,9 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
       endDrawer: const homeDrawer(),
       bottomNavigationBar: BottomNavyBar(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        selectedIndex: _currentIndex,
+        selectedIndex: widget.newContainerIndex ?? 1,
         onItemSelected: (index) {
-          setState(() => _currentIndex = index);
+          setState(() => widget.newContainerIndex = index);
           _pageController.jumpToPage(index);
         },
         items: <BottomNavyBarItem>[

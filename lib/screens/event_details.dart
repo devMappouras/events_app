@@ -1,3 +1,4 @@
+import 'package:events_app/screens/exploreContainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,8 +7,11 @@ import '../widgets/event_list_widget.dart';
 import 'home.dart';
 
 class EventDetailsScreen extends StatelessWidget {
+  bool cameFromHomeScreen = false;
+
   EventDetailsScreen({
     super.key,
+    required this.cameFromHomeScreen,
   });
 
   @override
@@ -33,7 +37,9 @@ class EventDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       icon: Icon(Icons.arrow_back),
-                      onPressed: () => Get.to(() => HomeScreen()),
+                      onPressed: () => Get.to(() => cameFromHomeScreen
+                          ? HomeScreen()
+                          : HomeScreen(newContainerIndex: 0)),
                     ),
                   )
                 ],

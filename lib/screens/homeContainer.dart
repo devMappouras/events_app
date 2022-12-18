@@ -32,8 +32,13 @@ class HomeContainer extends StatelessWidget {
         EventsListWidget(
           events: upcomingEvents,
           title: 'Upcoming events near you:',
+          cameFromHomeScreen: true,
         ),
-        EventsListWidget(events: bookedEvents, title: 'Booked Events:'),
+        EventsListWidget(
+          events: bookedEvents,
+          title: 'Booked Events:',
+          cameFromHomeScreen: true,
+        ),
       ]),
     );
   }
