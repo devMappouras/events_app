@@ -1,8 +1,7 @@
 import 'dart:io';
 
-import 'package:events_app/screens/event_details.dart';
+import 'package:events_app/screens/exploreContainer.dart';
 import 'package:events_app/screens/home.dart';
-import 'package:events_app/screens/register.dart';
 import 'package:events_app/utils/user_simple_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialBinding: InitDep(),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }

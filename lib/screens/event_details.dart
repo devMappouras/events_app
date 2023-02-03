@@ -1,20 +1,19 @@
-import 'package:events_app/screens/exploreContainer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:events_app/screens/buy_tickets_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../widgets/event_list_widget.dart';
+import '../core/models/event.dart';
 import 'home.dart';
 
 class EventDetailsScreen extends StatelessWidget {
   bool cameFromHomeScreen = false;
+  Event event;
 
   EventDetailsScreen({
     super.key,
     required this.cameFromHomeScreen,
+    required this.event,
   });
 
-  @override
   void onInit() async {}
 
   @override
@@ -32,14 +31,29 @@ class EventDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
-                      icon: Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back),
                       onPressed: () => Get.to(() => cameFromHomeScreen
                           ? HomeScreen()
                           : HomeScreen(newContainerIndex: 0)),
+                    ),
+                  ),
+                  const Text(
+                    "Event Detail",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.share),
+                      onPressed: () => Get.to(() => printInfo()),
                     ),
                   )
                 ],
@@ -53,34 +67,58 @@ class EventDetailsScreen extends StatelessWidget {
                 child: Container(
                   color: Colors.white,
                   child: Column(
-                    children: const [
+                    children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 8, top: 10),
+                        padding: EdgeInsets.only(top: 10),
                         child: Text(
-                          'Event A - More Event Information',
-                          style: TextStyle(
+                          event.eventTitle,
+                          style: const TextStyle(
                             fontSize: 22,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 8, top: 4, bottom: 4),
+                        padding: EdgeInsets.only(top: 4, bottom: 4),
                         child: Text(
-                          '25 Dec - 8pm',
-                          style: TextStyle(fontSize: 18, color: Colors.blue),
+                          event.eventDateTime,
+                          style:
+                              const TextStyle(fontSize: 18, color: Colors.blue),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 8, top: 4),
+                        padding: EdgeInsets.only(top: 4, bottom: 10),
                         child: Text(
-                          'OAKA Venue',
-                          style: TextStyle(
+                          event.venue,
+                          style: const TextStyle(
                             color: Color.fromARGB(221, 59, 59, 59),
                             fontSize: 18,
                           ),
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+              checkIfDescriptionExists(event.eventDescription),
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(25),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(() => BuyTicketsScreen(
+                            event: event,
+                          ));
+                    },
+                    style:
+                        ElevatedButton.styleFrom(shape: const StadiumBorder()),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Buy Tickets',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
                   ),
                 ),
               )
@@ -90,4 +128,40 @@ class EventDetailsScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+checkIfDescriptionExists(eventDescription) {
+  if (eventDescription == null || eventDescription == '') return Container();
+
+  return FractionallySizedBox(
+    widthFactor: 1,
+    child: Container(
+      color: Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 10, bottom: 4),
+            child: Text(
+              "Description",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Text(
+              textAlign: TextAlign.start,
+              eventDescription,
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

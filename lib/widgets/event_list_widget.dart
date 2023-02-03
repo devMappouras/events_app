@@ -3,8 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../core/models/event.dart';
+import 'event_widget.dart';
+
 class EventsListWidget extends StatelessWidget {
-  final List<String> events;
+  final List<Event> events;
   var title;
   bool cameFromHomeScreen;
 
@@ -50,51 +53,11 @@ class EventsListWidget extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () => Get.to(() => EventDetailsScreen(
-                          cameFromHomeScreen: cameFromHomeScreen)),
+                          cameFromHomeScreen: cameFromHomeScreen,
+                          event: events[index])),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(24),
-                        child: Container(
-                          width: 320,
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                'assets/images/events/${events[index]}.png',
-                                fit: BoxFit.contain,
-                              ),
-                              const Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8, top: 4, bottom: 4),
-                                child: Text(
-                                  '25 Dec - 8pm',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.blue),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 8, top: 4),
-                                child: Text(
-                                  'OAKA Venue',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(221, 59, 59, 59),
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, top: 10),
-                                child: Text(
-                                  'Event ${events[index]}                                       More Event Information',
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: eventWidget(event: events[index]),
                       ),
                     );
                   },

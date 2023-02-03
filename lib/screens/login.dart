@@ -4,9 +4,7 @@ import 'package:events_app/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../controllers/auth_controller.dart';
-import '../core/models/customer.dart';
 
 class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();

@@ -4,11 +4,25 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/auth_controller.dart';
+import '../core/models/event.dart';
 import '../widgets/event_list_widget.dart';
 
 class HomeContainer extends StatelessWidget {
-  final List<String> upcomingEvents = <String>['A', 'B', 'C'];
-  final List<String> bookedEvents = <String>['C'];
+  final List<Event> upcomingEvents = <Event>[
+    new Event(
+        eventId: 1,
+        eventTitle: "eventTitle",
+        eventDateTime: "eventDateTime",
+        venue: "venue")
+  ];
+
+  final List<Event> bookedEvents = <Event>[
+    new Event(
+        eventId: 1,
+        eventTitle: "eventTitle",
+        eventDateTime: "eventDateTime",
+        venue: "venue")
+  ];
   AuthController authController = Get.find();
   final String firstname;
 
