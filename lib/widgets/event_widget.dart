@@ -31,7 +31,7 @@ class eventWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 8, top: 4),
             child: Text(
-              event.venue,
+              event.venueName,
               style: const TextStyle(
                 color: Color.fromARGB(221, 59, 59, 59),
                 fontSize: 18,

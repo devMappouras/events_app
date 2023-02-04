@@ -17,7 +17,7 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    //getCountries();
+    getCountries();
   }
 
   //Variables, Setters, Getters

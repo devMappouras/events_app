@@ -88,7 +88,7 @@ class EventDetailsScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(top: 4, bottom: 10),
                         child: Text(
-                          event.venue,
+                          event.venueName,
                           style: const TextStyle(
                             color: Color.fromARGB(221, 59, 59, 59),
                             fontSize: 18,

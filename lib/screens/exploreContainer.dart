@@ -11,7 +11,7 @@ class exploreContainer extends StatelessWidget {
         eventId: 1,
         eventTitle: "eventTitle",
         eventDateTime: "eventDateTime",
-        venue: "venue")
+        venueName: "venueName")
   ];
   final List<String> categories = ['All', 'Music', 'Tournaments', 'Speeches'];
   TextEditingController categoryController = TextEditingController(text: 'All');

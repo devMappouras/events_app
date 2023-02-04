@@ -3,9 +3,9 @@ class Event {
   String eventTitle;
   String? eventDescription;
   String eventDateTime;
-  String? bannerImage;
   String? categoryId;
-  String venue;
+  String? venueNameId;
+  String venueName;
   String? collectionId;
   String? organiserId;
   String? organiserName;
@@ -15,9 +15,9 @@ class Event {
       required this.eventTitle,
       this.eventDescription,
       required this.eventDateTime,
-      this.bannerImage,
       this.categoryId,
-      required this.venue,
+      this.venueNameId,
+      required this.venueName,
       this.collectionId,
       this.organiserId,
       this.organiserName});
@@ -28,9 +28,9 @@ class Event {
       eventTitle: json['eventTitle'],
       eventDescription: json['eventDescription'],
       eventDateTime: json['eventDateTime'],
-      bannerImage: json['bannerImage'],
       categoryId: json['categoryId'],
-      venue: json['venue'],
+      venueNameId: json['venueNameId'],
+      venueName: json['venueName'],
       collectionId: json['collectionId'],
       organiserId: json['organiserId'],
       organiserName: json['organiserName'],
