@@ -14,11 +14,28 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+
+  #state manager
   get:
+
+  #powerful Http client for Dart (similar to http but better)
   dio:
+
+  #custom dropdowns
   animated_custom_dropdown: ^1.2.2
+
+  #custom bottom navigation bar
   bottom_navy_bar:
+
+  #persistent storage for simple data 
   shared_preferences:
+
+  #take screenshot
+  screenshot:
+
+  #share image
+  share_plus:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

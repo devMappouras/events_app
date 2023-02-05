@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../controllers/auth_controller.dart';
 import '../core/models/event.dart';
 import '../widgets/event_list_widget.dart';
+import '../widgets/loading_spinner.dart';
 
 class HomeContainer extends StatelessWidget {
   AuthController authController = Get.find();
@@ -56,7 +57,7 @@ class HomeContainer extends StatelessWidget {
                   ]),
                 );
               } else {
-                return const CircularProgressIndicator();
+                return const loadingSpinner();
               }
             })));
   }

@@ -1,10 +1,15 @@
+import 'dart:typed_data';
 import 'package:events_app/screens/buy_tickets_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import '../core/models/event.dart';
 import 'home.dart';
 
 class EventDetailsScreen extends StatelessWidget {
+  final screenshotController = ScreenshotController();
   bool cameFromHomeScreen = false;
   Event event;
 
@@ -28,78 +33,9 @@ class EventDetailsScreen extends StatelessWidget {
                 colors: [Colors.orange, Colors.purple])),
         child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () => Get.to(() => cameFromHomeScreen
-                          ? HomeScreen()
-                          : HomeScreen(newContainerIndex: 0)),
-                    ),
-                  ),
-                  const Text(
-                    "Event Detail",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      icon: const Icon(Icons.share),
-                      onPressed: () => Get.to(() => printInfo()),
-                    ),
-                  )
-                ],
-              ),
-              Image.asset(
-                'assets/images/events/A.png',
-                fit: BoxFit.contain,
-              ),
-              FractionallySizedBox(
-                widthFactor: 1,
-                child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text(
-                          event.eventTitle,
-                          style: const TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 4, bottom: 4),
-                        child: Text(
-                          event.eventDateTime,
-                          style:
-                              const TextStyle(fontSize: 18, color: Colors.blue),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 4, bottom: 10),
-                        child: Text(
-                          event.venueName,
-                          style: const TextStyle(
-                            color: Color.fromARGB(221, 59, 59, 59),
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              checkIfDescriptionExists(event.eventDescription),
+              customTopBar(),
+              eventInfo(event),
               Container(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -128,6 +64,90 @@ class EventDetailsScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget eventInfo(Event event) {
+    return Column(children: [
+      Image.asset(
+        'assets/images/events/A.png',
+        fit: BoxFit.contain,
+      ),
+      FractionallySizedBox(
+        widthFactor: 1,
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  event.eventTitle,
+                  style: const TextStyle(
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 4, bottom: 4),
+                child: Text(
+                  event.eventDateTime,
+                  style: const TextStyle(fontSize: 18, color: Colors.blue),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 4, bottom: 10),
+                child: Text(
+                  event.venueName,
+                  style: const TextStyle(
+                    color: Color.fromARGB(221, 59, 59, 59),
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      checkIfDescriptionExists(event.eventDescription),
+    ]);
+  }
+
+  Row customTopBar() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Get.to(() => cameFromHomeScreen
+              ? HomeScreen()
+              : HomeScreen(newContainerIndex: 0)),
+        ),
+      ),
+      const Text(
+        "Event Detail",
+        style: TextStyle(
+          fontSize: 20,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () async {
+              final image = await screenshotController
+                  .captureFromWidget(eventInfo(event));
+
+              saveAndShare(image);
+            }),
+      ),
+    ]);
+  }
+
+  Future saveAndShare(Uint8List bytes) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final image = XFile('${directory.path}/screenshot.png', bytes: bytes);
+    const text = 'Shared from events.tech app';
+    await Share.shareXFiles([image], text: text);
+  }
 }
 
 checkIfDescriptionExists(eventDescription) {
@@ -138,13 +158,11 @@ checkIfDescriptionExists(eventDescription) {
     child: Container(
       color: Colors.white,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 10, bottom: 4),
             child: Text(
-              "Description",
-              textAlign: TextAlign.start,
+              "Description:",
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -153,7 +171,6 @@ checkIfDescriptionExists(eventDescription) {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
-              textAlign: TextAlign.start,
               eventDescription,
               style: const TextStyle(
                 fontSize: 20,
