@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
 import '../utils/user_simple_preferences.dart';
+import '../widgets/custom_drawer.dart';
 import 'exploreContainer.dart';
 import 'homeContainer.dart';
 
@@ -22,6 +23,21 @@ class _HomeScreenState extends State<HomeScreen> {
       initialPage: widget.newContainerIndex ?? _homeContainerIndex);
   String firstname = '';
 
+  final TextEditingController _searchQuery = TextEditingController();
+
+  Widget appBarTitle = Text(
+    "Find Awesome Events",
+    style: TextStyle(
+      color: Colors.orange[700],
+    ),
+  );
+  Icon actionIcon = Icon(
+    Icons.search,
+    color: Colors.orange[700],
+  );
+  bool _IsSearching = false;
+  String _searchText = "";
+
   @override
   void initState() {
     super.initState();
@@ -39,17 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 0, top: 8, bottom: 8),
-          child: Image.asset(
-            "assets/images/logos/eventslogo.png",
-          ),
-        ),
-        title: const Text('Events.tech'),
-        foregroundColor: Colors.orange[700],
-        backgroundColor: Colors.white,
-      ),
+      appBar: appBar(),
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -63,14 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() => widget.newContainerIndex = index);
             },
             children: <Widget>[
-              exploreContainer(),
               HomeContainer(firstname: firstname),
+              exploreContainer(),
               Container(),
             ],
           ),
         ),
       ),
-      endDrawer: const homeDrawer(),
+      //drawer: const homeDrawer(),
       bottomNavigationBar: BottomNavyBar(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         selectedIndex: widget.newContainerIndex ?? 1,
@@ -80,13 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-              title: Text('Explore'),
-              icon: Icon(Icons.find_in_page),
+              title: Text('Home'),
+              icon: Icon(Icons.home),
               inactiveColor: Colors.grey,
               activeColor: Colors.orange[800]!),
           BottomNavyBarItem(
-              title: Text('Home'),
-              icon: Icon(Icons.home),
+              title: Text('Explore'),
+              icon: Icon(Icons.find_in_page),
               inactiveColor: Colors.grey,
               activeColor: Colors.orange[800]!),
           BottomNavyBarItem(
@@ -98,45 +104,72 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
 
-class homeDrawer extends StatelessWidget {
-  const homeDrawer({
-    super.key,
-  });
+  AppBar appBar() {
+    if (widget.newContainerIndex == null || widget.newContainerIndex == 1) {
+      return AppBar(
+          title: appBarTitle,
+          iconTheme: IconThemeData(color: Colors.orange),
+          foregroundColor: Colors.orange[700],
+          backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+              icon: actionIcon,
+              onPressed: () {
+                setState(() {
+                  if (this.actionIcon.icon == Icons.search) {
+                    this.actionIcon = Icon(
+                      Icons.close,
+                      color: Colors.orange[700],
+                    );
+                    this.appBarTitle = TextField(
+                      controller: _searchQuery,
+                      style: TextStyle(
+                        color: Colors.orange[700],
+                      ),
+                      decoration: InputDecoration(
+                          hintText: "Search event..",
+                          hintStyle: TextStyle(
+                            color: Colors.orange[700],
+                          )),
+                    );
+                    _handleSearchStart();
+                  } else {
+                    _handleSearchEnd();
+                  }
+                });
+              },
+            ),
+          ]);
+    } else {
+      return AppBar(
+        title: const Text('Events.tech'),
+        foregroundColor: Colors.orange[700],
+        backgroundColor: Colors.white,
+      );
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: const <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.orange,
-            ),
-            child: Text(
-              'Welcome Chris',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.message),
-            title: Text('Messages'),
-          ),
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-          ),
-        ],
-      ),
-    );
+  void _handleSearchStart() {
+    setState(() {
+      _IsSearching = true;
+    });
+  }
+
+  void _handleSearchEnd() {
+    setState(() {
+      this.actionIcon = Icon(
+        Icons.search,
+        color: Colors.orange[700],
+      );
+      this.appBarTitle = Text(
+        "Find Awesome Events",
+        style: TextStyle(
+          color: Colors.orange[700],
+        ),
+      );
+      _IsSearching = false;
+      _searchQuery.clear();
+    });
   }
 }

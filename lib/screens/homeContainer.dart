@@ -1,5 +1,4 @@
 import 'package:events_app/controllers/events_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,16 +43,13 @@ class HomeContainer extends StatelessWidget {
                         ),
                       ),
                     ),
-                    EventsListWidget(
-                      events: eventsController.recommendedEventsList,
-                      title: 'Upcoming events near you:',
-                      cameFromHomeScreen: true,
-                    ),
-                    EventsListWidget(
-                      events: bookedEvents,
-                      title: 'Booked Events:',
-                      cameFromHomeScreen: true,
-                    ),
+                    SizedBox(
+                      height: 515,
+                      width: 380,
+                      child: EventsListWidget(
+                        events: eventsController.recommendedEventsList,
+                      ),
+                    )
                   ]),
                 );
               } else {

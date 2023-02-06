@@ -7,12 +7,10 @@ import '../core/models/event.dart';
 import 'home.dart';
 
 class EventDetailsScreen extends StatelessWidget {
-  bool cameFromHomeScreen = false;
   Event event;
 
   EventDetailsScreen({
     super.key,
-    required this.cameFromHomeScreen,
     required this.event,
   });
 
@@ -114,9 +112,7 @@ class EventDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.to(() => cameFromHomeScreen
-              ? HomeScreen()
-              : HomeScreen(newContainerIndex: 0)),
+          onPressed: () => Get.to(() => HomeScreen()),
         ),
       ),
       const Text(

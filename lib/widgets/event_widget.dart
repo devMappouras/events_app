@@ -12,7 +12,6 @@ class eventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 320,
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,16 +19,17 @@ class eventWidget extends StatelessWidget {
           Image.asset(
             'assets/images/events/A.png',
             fit: BoxFit.contain,
+            width: 320,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 8, top: 4, bottom: 4),
+            padding: EdgeInsets.only(left: 14, top: 4, bottom: 4),
             child: Text(
               event.eventDateTime,
               style: TextStyle(fontSize: 18, color: Colors.blue),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 8, top: 4),
+            padding: EdgeInsets.only(left: 14, top: 4),
             child: Text(
               event.venueName,
               style: const TextStyle(
@@ -39,7 +39,7 @@ class eventWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, top: 10),
+            padding: const EdgeInsets.only(left: 14, top: 10),
             child: Text(
               event.eventTitle,
               style: const TextStyle(
