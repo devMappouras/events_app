@@ -30,12 +30,8 @@ dependencies:
   #persistent storage for simple data 
   shared_preferences:
 
-  #take screenshot
-  screenshot:
-
   #share image
   share_plus:
-  path_provider:
 
 dev_dependencies:
   flutter_test:

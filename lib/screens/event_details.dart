@@ -2,14 +2,11 @@ import 'dart:typed_data';
 import 'package:events_app/screens/buy_tickets_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import '../core/models/event.dart';
 import 'home.dart';
 
 class EventDetailsScreen extends StatelessWidget {
-  final screenshotController = ScreenshotController();
   bool cameFromHomeScreen = false;
   Event event;
 
@@ -34,7 +31,7 @@ class EventDetailsScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              customTopBar(),
+              customTopBar(event),
               eventInfo(event),
               Container(
                 alignment: Alignment.bottomCenter,
@@ -111,7 +108,7 @@ class EventDetailsScreen extends StatelessWidget {
     ]);
   }
 
-  Row customTopBar() {
+  Row customTopBar(Event event) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Padding(
         padding: const EdgeInsets.all(8.0),
@@ -133,20 +130,16 @@ class EventDetailsScreen extends StatelessWidget {
         child: IconButton(
             icon: const Icon(Icons.share),
             onPressed: () async {
-              final image = await screenshotController
-                  .captureFromWidget(eventInfo(event));
-
-              saveAndShare(image);
+              Share.share(
+                  "Hey! Check this event I found in Events.tech app:\n\n" +
+                      event.eventTitle +
+                      '\nDate: ' +
+                      event.eventDateTime +
+                      '\nVenue: ' +
+                      event.venueName);
             }),
       ),
     ]);
-  }
-
-  Future saveAndShare(Uint8List bytes) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final image = XFile('${directory.path}/screenshot.png', bytes: bytes);
-    const text = 'Shared from events.tech app';
-    await Share.shareXFiles([image], text: text);
   }
 }
 
