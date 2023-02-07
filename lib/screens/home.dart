@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      //drawer: const homeDrawer(),
+      drawer: homeDrawer(),
       bottomNavigationBar: BottomNavyBar(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         selectedIndex: widget.newContainerIndex ?? 1,

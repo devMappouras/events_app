@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class homeDrawer extends StatelessWidget {
-  const homeDrawer({
+  homeDrawer({
     super.key,
   });
 
@@ -10,8 +10,8 @@ class homeDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: const <Widget>[
-          DrawerHeader(
+        children: <Widget>[
+          const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.orange,
             ),
@@ -26,14 +26,32 @@ class homeDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.message),
             title: Text('Messages'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+            },
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
             title: Text('Profile'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+            },
           ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+            },
           ),
         ],
       ),

@@ -3,11 +3,12 @@ class Event {
   String eventTitle;
   String? eventDescription;
   String eventDateTime;
-  String? categoryId;
-  String? venueNameId;
+  int? categoryId;
+  String? categoryName;
+  int? venueNameId;
   String venueName;
-  String? collectionId;
-  String? organiserId;
+  int? collectionId;
+  int? organiserId;
   String? organiserName;
 
   Event(
@@ -16,6 +17,7 @@ class Event {
       this.eventDescription,
       required this.eventDateTime,
       this.categoryId,
+      this.categoryName,
       this.venueNameId,
       required this.venueName,
       this.collectionId,
@@ -29,6 +31,7 @@ class Event {
       eventDescription: json['eventDescription'],
       eventDateTime: json['eventDateTime'],
       categoryId: json['categoryId'],
+      categoryName: json['categoryName'],
       venueNameId: json['venueNameId'],
       venueName: json['venueName'],
       collectionId: json['collectionId'],

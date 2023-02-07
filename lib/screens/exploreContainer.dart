@@ -1,17 +1,12 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../core/models/event.dart';
+import '../controllers/events_controller.dart';
 import '../widgets/event_list_widget.dart';
+import '../widgets/loading_spinner.dart';
 
 class exploreContainer extends StatelessWidget {
-  final List<Event> upcomingEvents = <Event>[
-    new Event(
-        eventId: 1,
-        eventTitle: "eventTitle",
-        eventDateTime: "eventDateTime",
-        venueName: "venueName")
-  ];
+  EventsController eventsController = Get.find();
   final List<String> categories = ['All', 'Music', 'Tournaments', 'Speeches'];
   TextEditingController categoryController = TextEditingController(text: 'All');
 
@@ -47,7 +42,7 @@ class exploreContainer extends StatelessWidget {
                       hintText: 'Select Category',
                       items: categories,
                       onChanged: (String newValue) {
-                        print(newValue);
+                        filterEventsList(newValue);
                       },
                       controller: categoryController,
                     ),
@@ -57,14 +52,31 @@ class exploreContainer extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          height: 450,
-          width: 200,
-          child: EventsListWidget(
-            events: upcomingEvents,
-          ),
-        )
+        GetBuilder<EventsController>(
+            init: eventsController,
+            builder: ((controller) => FutureBuilder(
+                future: controller.getExploreEvents(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return SizedBox(
+                      height: 500,
+                      width: 200,
+                      child: Obx(
+                        () => EventsListWidget(
+                          events: eventsController.filteredEventsList,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const loadingSpinner();
+                  }
+                }))),
       ]),
     );
+  }
+
+  void filterEventsList(String categoryName) {
+    eventsController.resetFilteredList();
+    eventsController.filterEventsList(categoryName);
   }
 }

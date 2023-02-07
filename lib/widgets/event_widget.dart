@@ -16,20 +16,42 @@ class eventWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            'assets/images/events/A.png',
-            fit: BoxFit.contain,
-            width: 320,
-          ),
+          Stack(children: <Widget>[
+            Image.asset(
+              'assets/images/events/A.png',
+              fit: BoxFit.contain,
+              width: 320,
+            ),
+            Positioned(
+              right: 10.0,
+              top: 10.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  alignment: Alignment.topRight,
+                  decoration: BoxDecoration(
+                    color: Colors.orange[700],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(
+                      event.categoryName ?? '',
+                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ]),
           Padding(
-            padding: EdgeInsets.only(left: 14, top: 4, bottom: 4),
+            padding: const EdgeInsets.only(left: 14, top: 4, bottom: 4),
             child: Text(
               event.eventDateTime,
-              style: TextStyle(fontSize: 18, color: Colors.blue),
+              style: const TextStyle(fontSize: 18, color: Colors.blue),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 14, top: 4),
+            padding: const EdgeInsets.only(left: 14, top: 4),
             child: Text(
               event.venueName,
               style: const TextStyle(
