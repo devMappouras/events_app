@@ -32,7 +32,7 @@ class EventsListWidget extends StatelessWidget {
                         Get.to(() => EventDetailsScreen(event: events[index])),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24),
-                      child: eventWidget(event: events[index]),
+                      child: EventWidget(event: events[index]),
                     ),
                   );
                 },

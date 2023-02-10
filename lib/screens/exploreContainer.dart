@@ -59,7 +59,7 @@ class exploreContainer extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return SizedBox(
-                      height: 500,
+                      height: 572,
                       width: 200,
                       child: Obx(
                         () => EventsListWidget(
@@ -68,7 +68,10 @@ class exploreContainer extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return const loadingSpinner();
+                    return const Padding(
+                      padding: EdgeInsets.only(left: 25, right: 25),
+                      child: loadingSpinner(),
+                    );
                   }
                 }))),
       ]),

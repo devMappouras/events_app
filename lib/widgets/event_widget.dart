@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../core/models/event.dart';
 
-class eventWidget extends StatelessWidget {
+class EventWidget extends StatelessWidget {
   final Event event;
 
-  const eventWidget({
+  const EventWidget({
     super.key,
     required this.event,
   });

@@ -33,6 +33,12 @@ dependencies:
   #share image
   share_plus:
 
+  #increase/decrease ticket number
+  flutter_spinbox:
+
+  #ticket design widget
+  ticket_widget:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
