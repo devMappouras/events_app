@@ -15,36 +15,39 @@ class EventProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 60,
-            child: SpinBox(
-              min: 0,
-              max: 6,
-              value: 0,
-              spacing: 0,
-              direction: Axis.vertical,
-              textStyle: TextStyle(fontSize: 26),
-              incrementIcon: Icon(Icons.keyboard_arrow_up, size: 50),
-              decrementIcon: Icon(Icons.keyboard_arrow_down, size: 50),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: const EdgeInsets.all(0),
-              ),
-            ),
+            child: customSpinBox(),
           ),
           Container(
-            width: 10,
+            width: 4,
           ),
           TicketWidget(
-            width: 290,
-            height: 120,
+            width: 320,
+            height: 135,
             isCornerRounded: true,
             padding: const EdgeInsets.all(20),
             child: TicketData(eventProduct: eventProduct),
           ),
         ],
+      ),
+    );
+  }
+
+  SpinBox customSpinBox() {
+    return SpinBox(
+      min: 0,
+      max: 6,
+      value: 0,
+      spacing: 0,
+      direction: Axis.vertical,
+      textStyle: const TextStyle(fontSize: 26),
+      incrementIcon: const Icon(Icons.keyboard_arrow_up, size: 46),
+      decrementIcon: const Icon(Icons.keyboard_arrow_down, size: 46),
+      decoration: const InputDecoration(
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.only(left: 5, top: 0, bottom: 0, right: 0),
       ),
     );
   }
@@ -71,31 +74,40 @@ class TicketData extends StatelessWidget {
               height: 25.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30.0),
-                border: Border.all(width: 1.0, color: Colors.green),
+                border: Border.all(
+                    width: 1.0, color: Color.fromARGB(255, 3, 129, 11)),
               ),
               child: Center(
                 child: Text(
                   eventProduct.hierarchyName,
-                  style: TextStyle(color: Colors.green),
+                  style: TextStyle(color: Color.fromARGB(255, 3, 129, 11)),
                 ),
               ),
             ),
             Text(
-              'LHR',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            )
+              eventProduct.sectionName.length > 14
+                  ? eventProduct.sectionName
+                  : 'Section: ' + eventProduct.sectionName,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
           ],
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Text(
-            eventProduct.sectionName,
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold),
-          ),
+        Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 47, left: 8),
+              child: Text(
+                'Price: €' + eventProduct.price.toString(),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
         ),
       ],
     );

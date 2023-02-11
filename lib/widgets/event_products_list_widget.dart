@@ -12,24 +12,21 @@ class EventProductsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: ListView.separated(
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.all(10),
-        itemCount: eventProducts.length,
-        itemBuilder: (BuildContext context, int index) {
-          return EventProductWidget(eventProduct: eventProducts[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(
-            height: 20, //height spacing of divider
-            thickness: 0, //thickness of divider line
-            indent: 0, //spacing at the start of divider
-            endIndent: 0, //spacing at the end of divider
-          );
-        },
-      ),
+    return ListView.separated(
+      scrollDirection: Axis.vertical,
+      padding: EdgeInsets.only(left: 5),
+      itemCount: eventProducts.length,
+      itemBuilder: (BuildContext context, int index) {
+        return EventProductWidget(eventProduct: eventProducts[index]);
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const Divider(
+          height: 0, //height spacing of divider
+          thickness: 0, //thickness of divider line
+          indent: 0, //spacing at the start of divider
+          endIndent: 0, //spacing at the end of divider
+        );
+      },
     );
   }
 }
