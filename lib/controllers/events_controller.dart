@@ -39,6 +39,15 @@ class EventsController extends GetxController {
   final RxList<EventProduct> _eventProducts = <EventProduct>[].obs;
   List<EventProduct> get eventProductsList => _eventProducts.value;
 
+  //selected products list
+  final RxList<EventProduct> _selectedProducts = <EventProduct>[].obs;
+  List<EventProduct> get selectedProductsList => _selectedProducts.value;
+  int get selectedProductsLength => _selectedProducts.value.length;
+  RxInt get selectedProductsLengthRx => _selectedProducts.value.length.obs;
+
+  final RxDouble _saleTotal = 0.0.obs;
+  double get getSaleTotal => _saleTotal.value;
+
   /// *api calls*
   Future<void> getHomeEvents() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
@@ -125,5 +134,27 @@ class EventsController extends GetxController {
               .contains(categoryName.toLowerCase()))
           .toList();
     }
+  }
+
+  void addProductToSelectedProductsList(EventProduct product) {
+    _selectedProducts.value.add(product);
+    _selectedProducts.refresh();
+    calculateSaleTotal();
+  }
+
+  void removeProductFromSelectedProductsList(EventProduct product) {
+    _selectedProducts.value.remove(product);
+    _selectedProducts.refresh();
+    calculateSaleTotal();
+  }
+
+  void calculateSaleTotal() {
+    _saleTotal.value = 0.0;
+
+    if (_selectedProducts.value.length == 0) return;
+
+    _selectedProducts.value
+        .forEach((product) => _saleTotal.value += product.price);
+    _saleTotal.refresh();
   }
 }

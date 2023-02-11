@@ -7,7 +7,6 @@ import '../widgets/loading_spinner.dart';
 
 class BuyTicketsScreen extends StatelessWidget {
   EventsController eventsController = Get.find();
-
   Event event;
 
   BuyTicketsScreen({
@@ -28,48 +27,97 @@ class BuyTicketsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               topTitle(event: event),
-              GetBuilder<EventsController>(
-                  init: eventsController,
-                  builder: ((controller) => FutureBuilder(
-                      future: controller.getEventProducts(event.eventId),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return SizedBox(
-                            height: 590,
-                            width: 410,
-                            child: Obx(
-                              () => EventProductsListWidget(
-                                eventProducts:
-                                    eventsController.eventProductsList,
-                              ),
-                            ),
-                          );
-                        } else {
-                          return const Padding(
-                            padding: EdgeInsets.only(left: 25, right: 25),
-                            child: loadingSpinner(),
-                          );
-                        }
-                      }))),
-              // Container(
-              //   alignment: Alignment.bottomCenter,
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(25),
-              //     child: ElevatedButton(
-              //       onPressed: () {},
-              //       style:
-              //           ElevatedButton.styleFrom(shape: const StadiumBorder()),
-              //       child: const Padding(
-              //         padding: EdgeInsets.all(8.0),
-              //         child: Text(
-              //           'Checkout',
-              //           style: TextStyle(fontSize: 24),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // )
+              productsListContainer(),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: customBottomNavBar(context),
+    );
+  }
+
+  GetBuilder<EventsController> productsListContainer() {
+    return GetBuilder<EventsController>(
+        init: eventsController,
+        builder: ((controller) => FutureBuilder(
+            future: controller.getEventProducts(event.eventId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return SizedBox(
+                  height: 573,
+                  width: 410,
+                  child: Obx(
+                    () => EventProductsListWidget(
+                      eventProducts: eventsController.eventProductsList,
+                    ),
+                  ),
+                );
+              } else {
+                return const Padding(
+                  padding: EdgeInsets.only(left: 25, right: 25),
+                  child: loadingSpinner(),
+                );
+              }
+            })));
+  }
+
+  BottomAppBar customBottomNavBar(BuildContext context) {
+    return BottomAppBar(
+      child: Container(
+        color: Color.fromARGB(255, 169, 216, 255),
+        height: 50.0,
+        child: Stack(
+          children: [
+            Obx(
+              () => totalPrice(),
+            ),
+            checkoutButton(context),
+            Obx(
+              () => ticketCounter(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Align checkoutButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateColor.resolveWith(
+              (states) => const Color.fromARGB(255, 169, 216, 255)),
+          padding: MaterialStateProperty.resolveWith((states) =>
+              const EdgeInsets.only(bottom: 5, top: 5, left: 40, right: 40)),
+        ),
+        onPressed: () {
+          eventsController.selectedProductsLength > 0
+              ? print(eventsController.selectedProductsLength)
+              : ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.redAccent,
+                    content: Container(
+                      padding: EdgeInsets.all(2.0),
+                      child: const Text(
+                        'No tickets found in the cart',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+          // Your checkout logic here
+        },
+        child: Text(
+          'Checkout',
+          style: TextStyle(
+            color: Colors.orange[800],
+            fontSize: 20.0,
           ),
         ),
       ),
@@ -82,6 +130,52 @@ class BuyTicketsScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [Colors.orange, Colors.purple]));
+  }
+
+  Widget ticketCounter() {
+    return eventsController.selectedProductsLengthRx.value > 0
+        ? Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              margin: EdgeInsets.all(5.0),
+              padding: EdgeInsets.only(bottom: 5, top: 5, left: 8, right: 8),
+              decoration: BoxDecoration(
+                color: Colors.orange[700],
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Text(
+                eventsController.selectedProductsLengthRx.value.toString(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 23.0,
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
+
+  totalPrice() {
+    return eventsController.selectedProductsLengthRx.value > 0
+        ? Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              margin: EdgeInsets.all(5.0),
+              padding: EdgeInsets.only(bottom: 5, top: 5, left: 8, right: 8),
+              decoration: BoxDecoration(
+                color: Colors.orange[700],
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Text(
+                '€' + eventsController.getSaleTotal.toString(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 23.0,
+                ),
+              ),
+            ),
+          )
+        : Container();
   }
 }
 
@@ -98,7 +192,7 @@ class topTitle extends StatelessWidget {
     return FractionallySizedBox(
       widthFactor: 1,
       child: Container(
-        color: Colors.white,
+        color: Color.fromARGB(255, 180, 221, 255),
         child: Column(
           children: [
             Padding(

@@ -1,12 +1,18 @@
 import 'package:events_app/core/models/event-product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:get/get.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
-class EventProductWidget extends StatelessWidget {
-  final EventProduct eventProduct;
+import '../controllers/events_controller.dart';
 
-  const EventProductWidget({
+class EventProductWidget extends StatelessWidget {
+  EventsController eventsController = Get.find();
+
+  final EventProduct eventProduct;
+  int ticketNumber = 0;
+
+  EventProductWidget({
     super.key,
     required this.eventProduct,
   });
@@ -18,7 +24,7 @@ class EventProductWidget extends StatelessWidget {
         children: [
           SizedBox(
             width: 60,
-            child: customSpinBox(),
+            child: customSpinBox(eventProduct),
           ),
           Container(
             width: 4,
@@ -35,7 +41,7 @@ class EventProductWidget extends StatelessWidget {
     );
   }
 
-  SpinBox customSpinBox() {
+  SpinBox customSpinBox(EventProduct eventProduct) {
     return SpinBox(
       min: 0,
       max: 6,
@@ -49,6 +55,19 @@ class EventProductWidget extends StatelessWidget {
         border: InputBorder.none,
         contentPadding: EdgeInsets.only(left: 5, top: 0, bottom: 0, right: 0),
       ),
+      onChanged: (value) {
+        int currentValue = value.toInt();
+        if ((ticketNumber == 0 && currentValue == 1) ||
+            (currentValue > ticketNumber)) {
+          eventsController.addProductToSelectedProductsList(eventProduct);
+        } else if (currentValue < ticketNumber) {
+          eventsController.removeProductFromSelectedProductsList(eventProduct);
+        } else {
+          print('weird case happened sir');
+        }
+
+        ticketNumber = value.toInt();
+      },
     );
   }
 }
