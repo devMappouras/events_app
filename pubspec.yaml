@@ -39,6 +39,9 @@ dependencies:
   #ticket design widget
   ticket_widget:
 
+  #payment plugin
+  flutter_credit_card:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

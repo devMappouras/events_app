@@ -4,6 +4,7 @@ import '../controllers/events_controller.dart';
 import '../core/models/event.dart';
 import '../widgets/event_products_list_widget.dart';
 import '../widgets/loading_spinner.dart';
+import '../widgets/payment_screen.dart';
 
 class BuyTicketsScreen extends StatelessWidget {
   EventsController eventsController = Get.find();
@@ -93,7 +94,7 @@ class BuyTicketsScreen extends StatelessWidget {
         ),
         onPressed: () {
           eventsController.selectedProductsLength > 0
-              ? print(eventsController.selectedProductsLength)
+              ? Get.to(() => Payment())
               : ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.redAccent,
@@ -111,7 +112,6 @@ class BuyTicketsScreen extends StatelessWidget {
                     duration: Duration(seconds: 2),
                   ),
                 );
-          // Your checkout logic here
         },
         child: Text(
           'Checkout',
