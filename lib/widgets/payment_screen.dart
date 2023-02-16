@@ -5,6 +5,7 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
 
+import '../controllers/events_controller.dart';
 import '../screens/home.dart';
 
 class Payment extends StatefulWidget {
@@ -17,6 +18,8 @@ class Payment extends StatefulWidget {
 }
 
 class MySampleState extends State<Payment> {
+  EventsController eventsController = Get.find();
+
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
@@ -44,6 +47,7 @@ class MySampleState extends State<Payment> {
     );
 
     isLoading.value = false;
+    eventsController.initializePurchase();
     super.initState();
   }
 
@@ -169,6 +173,9 @@ class MySampleState extends State<Payment> {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
       isLoading.refresh();
+
+      eventsController.addPurchasedTickets();
+      eventsController.completePurchase();
 
       Timer(Duration(seconds: 2), () {
         isLoading.value = false;

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class EventProduct {
   int eventProductId;
   int productId;

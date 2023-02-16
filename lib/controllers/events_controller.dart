@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:events_app/core/models/customer_ticket.dart';
 import 'package:events_app/core/models/event-product.dart';
 import 'package:events_app/core/models/http-response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../core/models/event.dart';
+import '../core/models/purchase-id-response.dart';
+import '../core/models/ticket.dart';
 
 class EventsController extends GetxController {
   static const controllerOffset = 'EventsApi';
@@ -45,8 +49,20 @@ class EventsController extends GetxController {
   int get selectedProductsLength => _selectedProducts.value.length;
   RxInt get selectedProductsLengthRx => _selectedProducts.value.length.obs;
 
-  final RxDouble _saleTotal = 0.0.obs;
+  //customer tickets list
+  final RxList<CustomerTicket> _customerTickets = <CustomerTicket>[].obs;
+  List<CustomerTicket> get customerTicketsList => _customerTickets.value;
+  int get customerTicketsLength => _customerTickets.value.length;
+  RxInt get customerTicketsLengthRx => _customerTickets.value.length.obs;
+
+  //sale total
+  final RxDouble _saleTotal = 0.00.obs;
   double get getSaleTotal => _saleTotal.value;
+
+  //purchase id
+  final RxInt _purchaseId = 0.obs;
+  int get purchaseIdValue => _purchaseId.value;
+  set setPurchaseId(int value) => _purchaseId.value = value;
 
   /// *api calls*
   Future<void> getHomeEvents() async {
@@ -102,6 +118,105 @@ class EventsController extends GetxController {
     try {
       final response = await dio.get(
           '$apiUrl/$controllerOffset/CustomerEvents/GetEventProductsForCustomer?eventId=$eventId');
+
+      if (response.statusCode == 200) {
+        var responseValue = HttpResponse.fromJson(response.data).value;
+
+        _eventProducts.value = [];
+
+        _eventProducts.value = EventProduct.ListFromJson(responseValue);
+      } else {
+        print('${response.statusCode} : ${response.data.toString()}');
+        throw response.statusCode ?? 0;
+      }
+    } on DioError catch (e) {
+      debugPrint("Status code: ${e.response?.statusCode.toString()}");
+      throw Exception(e.message);
+    }
+  }
+
+  Future<void> initializePurchase() async {
+    //_dio.options.headers['authorization'] = 'Bearer $token';
+    var customerId = 1;
+    try {
+      final response = await dio.post(
+          '$apiUrl/$controllerOffset/CustomerPurchases/InitializePurchase?customerId=$customerId');
+
+      if (response.statusCode == 200) {
+        var responseValue = HttpResponse.fromJson(response.data).value;
+
+        _purchaseId.value = 0;
+
+        _purchaseId.value =
+            PurchaseIdResponse.fromJson(responseValue).purchaseId;
+
+        print(PurchaseIdResponse.fromJson(responseValue).purchaseId);
+      } else {
+        print('${response.statusCode} : ${response.data.toString()}');
+        throw response.statusCode ?? 0;
+      }
+    } on DioError catch (e) {
+      debugPrint("Status code: ${e.response?.statusCode.toString()}");
+      throw Exception(e.message);
+    }
+  }
+
+  Future<void> completePurchase() async {
+    //_dio.options.headers['authorization'] = 'Bearer $token';
+    try {
+      print(purchaseIdValue);
+      final response = await dio.post(
+          '$apiUrl/$controllerOffset/CustomerPurchases/CompletePurchase?purchaseId=$purchaseIdValue');
+
+      if (response.statusCode == 200) {
+      } else {
+        print('${response.statusCode} : ${response.data.toString()}');
+        throw response.statusCode ?? 0;
+      }
+    } on DioError catch (e) {
+      debugPrint("Status code: ${e.response?.statusCode.toString()}");
+      throw Exception(e.message);
+    }
+  }
+
+  Future<void> addPurchasedTickets() async {
+    //_dio.options.headers['authorization'] = 'Bearer $token';
+    var customerId = 1;
+
+    try {
+      List<Ticket> tickets = <Ticket>[];
+
+      _selectedProducts.value.forEach((product) => tickets.add(Ticket(
+          customerId: customerId,
+          purchaseId: purchaseIdValue,
+          eventProductId: product.eventProductId,
+          sectionId: product.sectionId)));
+
+      print(tickets);
+
+      final response = await dio.post(
+          '$apiUrl/$controllerOffset/CustomerPurchases/AddPurchasedTickets',
+          data: json.encode(tickets));
+
+      if (response.statusCode == 200) {
+        var responseValue = HttpResponse.fromJson(response.data).value;
+        _selectedProducts.value = [];
+      } else {
+        print('${response.statusCode} : ${response.data.toString()}');
+        throw response.statusCode ?? 0;
+      }
+    } on DioError catch (e) {
+      debugPrint("Status code: ${e.response?.statusCode.toString()}");
+      throw Exception(e.message);
+    }
+  }
+
+  Future<void> getCustomerTickets() async {
+    //_dio.options.headers['authorization'] = 'Bearer $token';
+    var customerId = 1;
+    try {
+      final response = await dio.get(
+          '$apiUrl/$controllerOffset/CustomerPurchases/GetCustomerTickets?customerId=$customerId');
 
       if (response.statusCode == 200) {
         var responseValue = HttpResponse.fromJson(response.data).value;
