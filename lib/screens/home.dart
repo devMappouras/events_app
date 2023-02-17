@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:events_app/screens/ticketsContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               HomeContainer(firstname: firstname),
               exploreContainer(),
-              Container(),
+              ticketsContainer(),
             ],
           ),
         ),

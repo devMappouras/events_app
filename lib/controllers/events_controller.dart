@@ -221,9 +221,9 @@ class EventsController extends GetxController {
       if (response.statusCode == 200) {
         var responseValue = HttpResponse.fromJson(response.data).value;
 
-        _eventProducts.value = [];
+        _customerTickets.value = [];
 
-        _eventProducts.value = EventProduct.ListFromJson(responseValue);
+        _customerTickets.value = CustomerTicket.ListFromJson(responseValue);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
         throw response.statusCode ?? 0;
