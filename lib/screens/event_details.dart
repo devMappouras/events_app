@@ -62,10 +62,25 @@ class EventDetailsScreen extends StatelessWidget {
 
   Widget eventInfo(Event event) {
     return Column(children: [
-      Image.asset(
-        'assets/images/events/A.png',
-        fit: BoxFit.contain,
+      ShaderMask(
+        blendMode: BlendMode.srcATop,
+        shaderCallback: (Rect bounds) {
+          return LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.orange[600]!, Colors.transparent],
+            stops: [0, 0.5],
+          ).createShader(bounds);
+        },
+        child: Image.asset(
+          'assets/images/events/${event.categoryName!.toLowerCase()}.png',
+          fit: BoxFit.cover,
+        ),
       ),
+      // Image.asset(
+      //   'assets/images/events/${event.categoryName!.toLowerCase()}.png',
+      //   fit: BoxFit.contain,
+      // ),
       FractionallySizedBox(
         widthFactor: 1,
         child: Container(

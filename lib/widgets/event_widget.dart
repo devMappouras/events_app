@@ -18,9 +18,10 @@ class EventWidget extends StatelessWidget {
         children: [
           Stack(children: <Widget>[
             Image.asset(
-              'assets/images/events/A.png',
-              fit: BoxFit.contain,
-              width: 320,
+              'assets/images/events/${event.categoryName!.toLowerCase()}.png',
+              fit: BoxFit.fill,
+              width: 392,
+              height: 140,
             ),
             Positioned(
               right: 10.0,

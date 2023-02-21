@@ -18,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void onInit() async {
-    print("gggggg");
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString('token') != '') {
       print(prefs.getString('token'));
@@ -154,9 +153,48 @@ class _LoginScreenState extends State<LoginScreen> {
                             left: 40, right: 40, top: 30, bottom: 20),
                         child: InkWell(
                           onTap: () {
-                            authController.loginCustomer(LoginRequest(
-                                email: emailTextController.value.text,
-                                password: passwordTextController.value.text));
+                            if (emailTextController.value.text == '') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.redAccent,
+                                  content: Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: const Text(
+                                      'Please provide your Email',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            } else if (passwordTextController.value.text ==
+                                '') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.redAccent,
+                                  content: Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: const Text(
+                                      'Password is required',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            } else {
+                              authController.loginCustomer(LoginRequest(
+                                  email: emailTextController.value.text,
+                                  password: passwordTextController.value.text));
+                            }
                           },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../screens/login.dart';
+import '../utils/user_simple_preferences.dart';
 
 class homeDrawer extends StatelessWidget {
-  homeDrawer({
+  final String firstname;
+
+  const homeDrawer({
     super.key,
+    required this.firstname,
   });
 
   @override
@@ -11,46 +18,33 @@ class homeDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
-            decoration: BoxDecoration(
+          DrawerHeader(
+            decoration: const BoxDecoration(
               color: Colors.orange,
             ),
             child: Text(
-              'Welcome Chris',
-              style: TextStyle(
+              'Welcome $firstname,',
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 24,
               ),
             ),
           ),
           ListTile(
-            leading: Icon(Icons.message),
-            title: Text('Messages'),
-            onTap: () {
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () async {
               // Update the state of the app
-              // ...
               // Then close the drawer
+              await UserSimplePreferences.setToken('');
+              await UserSimplePreferences.setCustomerId(0);
+              await UserSimplePreferences.setFirstName('');
+              await UserSimplePreferences.setEmail('');
+              await UserSimplePreferences.setCountryId(0);
+
               Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+
+              Get.to(() => LoginScreen());
             },
           ),
         ],

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../core/models/event.dart';
 import '../core/models/purchase-id-response.dart';
 import '../core/models/ticket.dart';
+import '../utils/user_simple_preferences.dart';
 
 class EventsController extends GetxController {
   static const controllerOffset = 'EventsApi';
@@ -67,7 +68,7 @@ class EventsController extends GetxController {
   /// *api calls*
   Future<void> getHomeEvents() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
-    var customerId = 1;
+    var customerId = UserSimplePreferences.getCustomerId();
     try {
       final response = await dio.get(
           '$apiUrl/$controllerOffset/CustomerEvents/GetHomeScreenEvents?customerId=$customerId');
@@ -90,7 +91,7 @@ class EventsController extends GetxController {
 
   Future<void> getExploreEvents() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
-    var customerId = 1;
+    var customerId = UserSimplePreferences.getCustomerId();
     try {
       final response = await dio.get(
           '$apiUrl/$controllerOffset/CustomerEvents/GetExploreEvents?customerId=$customerId');
@@ -137,7 +138,7 @@ class EventsController extends GetxController {
 
   Future<void> initializePurchase() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
-    var customerId = 1;
+    var customerId = UserSimplePreferences.getCustomerId();
     try {
       final response = await dio.post(
           '$apiUrl/$controllerOffset/CustomerPurchases/InitializePurchase?customerId=$customerId');
@@ -181,7 +182,7 @@ class EventsController extends GetxController {
 
   Future<void> addPurchasedTickets() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
-    var customerId = 1;
+    var customerId = UserSimplePreferences.getCustomerId();
 
     try {
       List<Ticket> tickets = <Ticket>[];
@@ -213,7 +214,7 @@ class EventsController extends GetxController {
 
   Future<void> getCustomerTickets() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
-    var customerId = 1;
+    var customerId = UserSimplePreferences.getCustomerId();
     try {
       final response = await dio.get(
           '$apiUrl/$controllerOffset/CustomerPurchases/GetCustomerTickets?customerId=$customerId');
