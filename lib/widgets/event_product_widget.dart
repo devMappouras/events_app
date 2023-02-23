@@ -63,7 +63,7 @@ class EventProductWidget extends StatelessWidget {
         } else if (currentValue < ticketNumber) {
           eventsController.removeProductFromSelectedProductsList(eventProduct);
         } else {
-          print('weird case happened sir');
+          print('unexpected error');
         }
 
         ticketNumber = value.toInt();

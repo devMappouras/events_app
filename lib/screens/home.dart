@@ -3,6 +3,7 @@ import 'package:events_app/screens/ticketsContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
+import '../controllers/events_controller.dart';
 import '../utils/user_simple_preferences.dart';
 import '../widgets/custom_drawer.dart';
 import 'exploreContainer.dart';
@@ -18,13 +19,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  EventsController eventsController = Get.find();
   AuthController registrationController = Get.find();
+
   final int _homeContainerIndex = 1;
   late final PageController _pageController = PageController(
       initialPage: widget.newContainerIndex ?? _homeContainerIndex);
+
   String firstname = '';
 
   final TextEditingController _searchQuery = TextEditingController();
+  bool _IsSearching = false;
+  String _searchText = "";
 
   Widget appBarTitle = Text(
     "Find Awesome Events",
@@ -32,12 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Colors.orange[700],
     ),
   );
+
   Icon actionIcon = Icon(
     Icons.search,
     color: Colors.orange[700],
   );
-  bool _IsSearching = false;
-  String _searchText = "";
 
   @override
   void initState() {
@@ -118,16 +123,18 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: actionIcon,
               onPressed: () {
                 setState(() {
-                  if (this.actionIcon.icon == Icons.search) {
-                    this.actionIcon = Icon(
+                  if (actionIcon.icon == Icons.search) {
+                    actionIcon = Icon(
                       Icons.close,
                       color: Colors.orange[700],
                     );
-                    this.appBarTitle = TextField(
+                    appBarTitle = TextField(
                       controller: _searchQuery,
                       style: TextStyle(
                         color: Colors.orange[700],
                       ),
+                      onChanged: (value) =>
+                          eventsController.filterEventsListByName(value),
                       decoration: InputDecoration(
                           hintText: "Search event..",
                           hintStyle: TextStyle(
@@ -159,11 +166,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _handleSearchEnd() {
     setState(() {
-      this.actionIcon = Icon(
+      actionIcon = Icon(
         Icons.search,
         color: Colors.orange[700],
       );
-      this.appBarTitle = Text(
+      appBarTitle = Text(
         "Find Awesome Events",
         style: TextStyle(
           color: Colors.orange[700],

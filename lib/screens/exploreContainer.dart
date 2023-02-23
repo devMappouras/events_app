@@ -7,7 +7,13 @@ import '../widgets/loading_spinner.dart';
 
 class exploreContainer extends StatelessWidget {
   EventsController eventsController = Get.find();
-  final List<String> categories = ['All', 'Music', 'Tournaments', 'Speeches'];
+  final List<String> categories = [
+    'All',
+    'Music',
+    'Dance',
+    'Tournaments',
+    'Speeches'
+  ];
   TextEditingController categoryController = TextEditingController(text: 'All');
 
   exploreContainer({

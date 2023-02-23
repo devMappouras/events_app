@@ -193,8 +193,6 @@ class EventsController extends GetxController {
           eventProductId: product.eventProductId,
           sectionId: product.sectionId)));
 
-      print(tickets);
-
       final response = await dio.post(
           '$apiUrl/$controllerOffset/CustomerPurchases/AddPurchasedTickets',
           data: json.encode(tickets));
@@ -248,6 +246,17 @@ class EventsController extends GetxController {
           .where((event) => event.categoryName!
               .toLowerCase()
               .contains(categoryName.toLowerCase()))
+          .toList();
+    }
+  }
+
+  void filterEventsListByName(String eventName) {
+    if (eventName == '') {
+      //resetFilteredList();
+    } else {
+      _filteredEvents.value = _filteredEvents.value
+          .where((event) =>
+              event.eventTitle.toLowerCase().contains(eventName.toLowerCase()))
           .toList();
     }
   }
