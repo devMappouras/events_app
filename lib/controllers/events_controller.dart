@@ -77,6 +77,12 @@ class EventsController extends GetxController {
   Future<void> getExploreEvents() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
     var customerId = UserSimplePreferences.getCustomerId();
+
+    var favIntList = UserSimplePreferences.getFavoriteList();
+    if (favIntList.isNotEmpty) {
+      _favourites.value = favIntList;
+    }
+
     try {
       final response = await dio.get(
           '$apiUrl/$controllerOffset/CustomerEvents/GetExploreEvents?customerId=$customerId');
@@ -278,6 +284,9 @@ class EventsController extends GetxController {
           _allEvents.value.firstWhere((event) => event.eventId == eventId);
       _allFavoriteEvents.remove(event);
 
+      UserSimplePreferences.setFavoriteList([]);
+      UserSimplePreferences.setFavoriteList(_favourites.value);
+
       print(eventId);
     } else {
       _favourites.value.add(eventId);
@@ -285,6 +294,9 @@ class EventsController extends GetxController {
       var event =
           _allEvents.value.firstWhere((event) => event.eventId == eventId);
       _allFavoriteEvents.add(event);
+
+      UserSimplePreferences.setFavoriteList([]);
+      UserSimplePreferences.setFavoriteList(_favourites.value);
 
       print(eventId);
     }

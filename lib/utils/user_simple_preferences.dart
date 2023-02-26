@@ -36,4 +36,24 @@ class UserSimplePreferences {
       await _preferences.setInt('countryId', countryId);
 
   static int getCountryId() => _preferences.getInt('countryId') ?? 0;
+
+  static Future setFavoriteList(List<int> list) async {
+    // convert your custom list to string list
+    List<String> favList = list.map((i) => i.toString()).toList();
+
+    // store your string list in shared prefs
+    await _preferences.setStringList("favList", favList);
+  }
+
+  static List<int> getFavoriteList() {
+    // fetch your string list
+    List<String> mList = (_preferences.getStringList('favList') ?? <String>[]);
+
+    if (mList.isEmpty) return <int>[];
+
+    //convert your string list to your original int list
+    List<int> mFavList = mList.map((i) => int.parse(i)).toList();
+
+    return mFavList;
+  }
 }

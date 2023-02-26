@@ -33,8 +33,8 @@ class EventDetailsScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                 colors: [Colors.orange, Colors.purple])),
         child: SafeArea(
           child: Column(
