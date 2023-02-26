@@ -45,6 +45,8 @@ dependencies:
   #qr code package
   qr_flutter:
 
+  favorite_button:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

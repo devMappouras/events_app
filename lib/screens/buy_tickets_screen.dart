@@ -45,7 +45,7 @@ class BuyTicketsScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return SizedBox(
-                  height: 645,
+                  height: 573,
                   width: 410,
                   child: Obx(
                     () => EventProductsListWidget(

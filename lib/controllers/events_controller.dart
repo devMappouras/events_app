@@ -65,30 +65,15 @@ class EventsController extends GetxController {
   int get purchaseIdValue => _purchaseId.value;
   set setPurchaseId(int value) => _purchaseId.value = value;
 
+  //all events list
+  final RxList<int> _favourites = <int>[].obs;
+  List<int> get favouritesList => _favourites.value;
+
+  //all events list
+  final RxList<Event> _allFavoriteEvents = <Event>[].obs;
+  List<Event> get allFavoriteEventsList => _allFavoriteEvents.value;
+
   /// *api calls*
-  Future<void> getHomeEvents() async {
-    //_dio.options.headers['authorization'] = 'Bearer $token';
-    var customerId = UserSimplePreferences.getCustomerId();
-    try {
-      final response = await dio.get(
-          '$apiUrl/$controllerOffset/CustomerEvents/GetHomeScreenEvents?customerId=$customerId');
-
-      if (response.statusCode == 200) {
-        var responseValue = HttpResponse.fromJson(response.data).value;
-
-        _recommendedEvents.value = [];
-
-        _recommendedEvents.value = Event.ListFromJson(responseValue);
-      } else {
-        print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode ?? 0;
-      }
-    } on DioError catch (e) {
-      debugPrint("Status code: ${e.response?.statusCode.toString()}");
-      throw Exception(e.message);
-    }
-  }
-
   Future<void> getExploreEvents() async {
     //_dio.options.headers['authorization'] = 'Bearer $token';
     var customerId = UserSimplePreferences.getCustomerId();
@@ -101,9 +86,11 @@ class EventsController extends GetxController {
 
         _allEvents.value = [];
         _filteredEvents.value = [];
+        _allFavoriteEvents.value = [];
 
         _allEvents.value = Event.ListFromJson(responseValue);
         _filteredEvents.value = Event.ListFromJson(responseValue);
+        importFavouritedEvents();
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
         throw response.statusCode ?? 0;
@@ -281,5 +268,40 @@ class EventsController extends GetxController {
     _selectedProducts.value
         .forEach((product) => _saleTotal.value += product.price);
     _saleTotal.refresh();
+  }
+
+  void favoriteEvent(int eventId) {
+    if (_favourites.value.contains(eventId)) {
+      _favourites.value.remove(eventId);
+
+      var event =
+          _allEvents.value.firstWhere((event) => event.eventId == eventId);
+      _allFavoriteEvents.remove(event);
+
+      print(eventId);
+    } else {
+      _favourites.value.add(eventId);
+
+      var event =
+          _allEvents.value.firstWhere((event) => event.eventId == eventId);
+      _allFavoriteEvents.add(event);
+
+      print(eventId);
+    }
+  }
+
+  bool isEventfavourited(int eventId) {
+    if (_favourites.value.contains(eventId)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void importFavouritedEvents() {
+    for (var id in _favourites) {
+      var event = _allEvents.value.firstWhere((event) => event.eventId == id);
+      _allFavoriteEvents.add(event);
+    }
   }
 }

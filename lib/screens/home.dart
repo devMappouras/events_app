@@ -7,7 +7,7 @@ import '../controllers/events_controller.dart';
 import '../utils/user_simple_preferences.dart';
 import '../widgets/custom_drawer.dart';
 import 'exploreContainer.dart';
-import 'homeContainer.dart';
+import 'favoritesContainer.dart';
 
 class HomeScreen extends StatefulWidget {
   int? newContainerIndex = 1;
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() => widget.newContainerIndex = index);
             },
             children: <Widget>[
-              HomeContainer(firstname: firstname),
+              FavoritesContainer(firstname: firstname),
               exploreContainer(),
               ticketsContainer(),
             ],

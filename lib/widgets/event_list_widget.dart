@@ -6,10 +6,12 @@ import 'event_widget.dart';
 
 class EventsListWidget extends StatelessWidget {
   final List<Event> events;
+  bool cameFromHomeScreen;
 
   EventsListWidget({
     super.key,
     required this.events,
+    required this.cameFromHomeScreen,
   });
 
   @override
@@ -28,8 +30,10 @@ class EventsListWidget extends StatelessWidget {
                 itemCount: events.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () =>
-                        Get.to(() => EventDetailsScreen(event: events[index])),
+                    onTap: () => Get.to(() => EventDetailsScreen(
+                          event: events[index],
+                          cameFromHomeScreen: cameFromHomeScreen,
+                        )),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24),
                       child: EventWidget(event: events[index]),

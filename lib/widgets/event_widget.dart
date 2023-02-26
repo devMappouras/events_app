@@ -37,7 +37,7 @@ class EventWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(5),
                     child: Text(
                       event.categoryName ?? '',
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),

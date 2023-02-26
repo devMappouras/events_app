@@ -1,5 +1,7 @@
 import 'dart:typed_data';
+import 'package:events_app/controllers/events_controller.dart';
 import 'package:events_app/screens/buy_tickets_screen.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
@@ -7,14 +9,22 @@ import '../core/models/event.dart';
 import 'home.dart';
 
 class EventDetailsScreen extends StatelessWidget {
+  EventsController eventsController = Get.find();
   Event event;
+  bool isFavorite = false;
+  bool cameFromHomeScreen = false;
 
   EventDetailsScreen({
     super.key,
     required this.event,
+    required this.cameFromHomeScreen,
   });
 
-  void onInit() async {}
+  void onInit() async {
+    if (eventsController.isEventfavourited(event.eventId)) {
+      isFavorite = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +82,22 @@ class EventDetailsScreen extends StatelessWidget {
             stops: [0, 0.5],
           ).createShader(bounds);
         },
-        child: Image.asset(
-          'assets/images/events/${event.categoryName!.toLowerCase()}.png',
-          fit: BoxFit.cover,
-        ),
+        child: Stack(children: <Widget>[
+          Image.asset(
+            'assets/images/events/${event.categoryName!.toLowerCase()}.png',
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+              right: 10.0,
+              bottom: 10.0,
+              child: FavoriteButton(
+                isFavorite: eventsController.isEventfavourited(event.eventId),
+                valueChanged: (isFavorite) {
+                  eventsController.favoriteEvent(event.eventId);
+                },
+              )),
+        ]),
       ),
-      // Image.asset(
-      //   'assets/images/events/${event.categoryName!.toLowerCase()}.png',
-      //   fit: BoxFit.contain,
-      // ),
       FractionallySizedBox(
         widthFactor: 1,
         child: Container(
@@ -127,7 +144,9 @@ class EventDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.to(() => HomeScreen()),
+          onPressed: () => Get.to(() => cameFromHomeScreen
+              ? HomeScreen(newContainerIndex: 0)
+              : HomeScreen(newContainerIndex: 1)),
         ),
       ),
       const Text(

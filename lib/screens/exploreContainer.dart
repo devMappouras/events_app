@@ -70,6 +70,7 @@ class exploreContainer extends StatelessWidget {
                       child: Obx(
                         () => EventsListWidget(
                           events: eventsController.filteredEventsList,
+                          cameFromHomeScreen: false,
                         ),
                       ),
                     );
