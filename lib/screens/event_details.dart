@@ -116,7 +116,9 @@ class EventDetailsScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 4, bottom: 4),
                 child: Text(
-                  event.eventDateTime,
+                  event.eventDateTime
+                      .replaceAll('T', ', ')
+                      .replaceAll('+00:00', ''),
                   style: const TextStyle(fontSize: 18, color: Colors.blue),
                 ),
               ),

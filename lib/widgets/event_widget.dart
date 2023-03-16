@@ -47,7 +47,9 @@ class EventWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 14, top: 4, bottom: 4),
             child: Text(
-              event.eventDateTime,
+              event.eventDateTime
+                  .replaceAll('T', ', ')
+                  .replaceAll('+00:00', ''),
               style: const TextStyle(fontSize: 18, color: Colors.blue),
             ),
           ),

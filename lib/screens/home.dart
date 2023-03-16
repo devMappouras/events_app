@@ -92,8 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-              title: Text('Home'),
-              icon: Icon(Icons.home),
+              title: Text('Favourites'),
+              icon: Icon(Icons.favorite_outlined),
               inactiveColor: Colors.grey,
               activeColor: Colors.orange[800]!),
           BottomNavyBarItem(
