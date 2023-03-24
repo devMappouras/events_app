@@ -5,6 +5,7 @@ import 'package:events_app/core/models/login_request.dart';
 import 'package:events_app/screens/home.dart';
 import 'package:events_app/utils/user_simple_preferences.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../core/models/customer.dart';
 import '../core/models/login_response.dart';
@@ -88,7 +89,8 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> loginCustomer(LoginRequest loginRequest) async {
+  Future<void> loginCustomer(
+      LoginRequest loginRequest, BuildContext context) async {
     try {
       //_dio.options.headers['authorization'] = 'Bearer $token';
 
@@ -96,10 +98,10 @@ class AuthController extends GetxController {
           '$apiUrl/$controllerOffset/Customers/Login',
           data: loginRequest.toJson());
 
-      if (response.statusCode != Null && response.statusCode == 200) {
-        var responseValue = HttpResponse.fromJson(response.data).value;
-        var loginResponse = LoginResponse.fromJson(responseValue);
-        print(loginResponse);
+      var responseJson = HttpResponse.fromJson(response.data);
+
+      if (responseJson.statusCode != null && responseJson.statusCode == 200) {
+        var loginResponse = LoginResponse.fromJson(responseJson.value);
 
         // set useful information about user in shared preferences
         await UserSimplePreferences.setToken(loginResponse.token);
@@ -113,9 +115,42 @@ class AuthController extends GetxController {
             loginResponse.customerInfo['countryId']);
 
         Get.to(() => HomeScreen());
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.greenAccent,
+            content: Container(
+              padding: EdgeInsets.all(2.0),
+              child: const Text(
+                'Successfully Logged In',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            duration: Duration(seconds: 2),
+          ),
+        );
       } else {
-        print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode ?? 0;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Container(
+              padding: EdgeInsets.all(2.0),
+              child: const Text(
+                'User was not Found',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            duration: Duration(seconds: 2),
+          ),
+        );
       }
     } on DioError catch (e) {
       debugPrint("Status code: ${e.response?.statusCode.toString()}");

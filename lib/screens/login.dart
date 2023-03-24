@@ -191,9 +191,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             } else {
-                              authController.loginCustomer(LoginRequest(
-                                  email: emailTextController.value.text,
-                                  password: passwordTextController.value.text));
+                              authController.loginCustomer(
+                                  LoginRequest(
+                                      email: emailTextController.value.text,
+                                      password:
+                                          passwordTextController.value.text),
+                                  context);
                             }
                           },
                           child: ClipRRect(

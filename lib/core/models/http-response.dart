@@ -1,8 +1,8 @@
 class HttpResponse {
-  int statusCode;
+  int? statusCode;
   dynamic value;
 
-  HttpResponse({required this.statusCode, this.value});
+  HttpResponse({this.statusCode, this.value});
 
   factory HttpResponse.fromJson(dynamic json) {
     return HttpResponse(
